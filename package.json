@@ -1,0 +1,27 @@
+{
+  "name": "bienesraices_mvc",
+  "version": "1.0.0",
+  "description": "Mi primer proyecto de Node.js  usando express",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
+  "keywords": [
+    "MVC",
+    "Pug",
+    "TailwindCss",
+    "MySQL",
+    "Sequelize"
+  ],
+  "author": "Richard M. Pereira Chinchero",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pug": "^3.0.2"
+  }
+}
