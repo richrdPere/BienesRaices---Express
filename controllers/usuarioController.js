@@ -1,6 +1,7 @@
 import { check, validationResult } from 'express-validator'
 import Usuario from '../models/Usuario.js';
 import { generarId } from '../helpers/tokens.js';
+import { emailRegistro } from '../helpers/emails.js'
 
 const formularioLogin = (req, res) => {
     res.render('auth/login', {
@@ -60,11 +61,18 @@ const registrar = async (req, res) => {
     }
 
     // Almacenar un Usuario
-    await Usuario.create({
+    const usuario = await Usuario.create({
         nombre, 
         email, 
         password,
         token: generarId()
+    })
+
+    // Enviar email de confirmación
+    emailRegistro({
+        nombre: usuario.nombre,
+        email: usuario.email,
+        token: usuario.token
     })
 
     // Mostrar mensaje de confirmación
@@ -75,15 +83,48 @@ const registrar = async (req, res) => {
 
 }
 
+// Funcion qu ecomprueba una cuenta 
+const confirmar = async (req, res) => {
+    const { token } = req.params;
+
+    // Verificar si el token es válido
+    const usuario = await Usuario.findOne({
+        where: {token}
+    })
+
+    if(!usuario){
+        return res.render('auth/confirmar-cuenta', {
+            pagina: 'Error al confirmar tu cuenta',
+            mensaje: 'Hubo un error al confirmar tu cuenta, intenta de nuevo',
+            error: true
+        })
+    }
+    
+    // Confirmar la cuenta
+    usuario.token = null;
+    usuario.confirmado = true;
+    await usuario.save();
+
+    return res.render('auth/confirmar-cuenta', {
+        pagina: 'Cuenta Confirmada',
+        mensaje: 'La cuenta se confirmó Correctamente',
+    })
+
+}
+
 const formularioOlvidePasswword = (req, res) => {
     res.render('auth/olvide-password', {
         pagina: "Recupera tu acceso a Bienes Raices"
     })
 }
 
+
+
 export {
     formularioLogin,
     formularioRegistro,
     registrar,
+    confirmar,
     formularioOlvidePasswword
+
 }

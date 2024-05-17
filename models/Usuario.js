@@ -25,6 +25,6 @@ const Usuario = db.define('usuarios', {
             usuario.password = await bcrypt.hash( usuario.password, salt)
         }
     }
-})
+}, {timestamps: false})
 
 export default Usuario;

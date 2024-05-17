@@ -3,6 +3,9 @@ import express from 'express';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import db from './config/db.js';
 
+// Process.env
+//const { PORT } = process.env;
+
 // Crear la app
 const app = express();
 
@@ -29,7 +32,7 @@ app.use( express.static('public'));
 app.use('/auth', usuarioRoutes);
 
 // Definir un puerto y arrancarlo
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`El Servidor esta funcionando en el puerto ${PORT}`)

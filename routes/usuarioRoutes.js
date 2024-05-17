@@ -1,5 +1,5 @@
 import express from 'express';
-import { formularioLogin, formularioRegistro, registrar, formularioOlvidePasswword } from '../controllers/usuarioController.js';
+import { formularioLogin, formularioRegistro, registrar, confirmar, formularioOlvidePasswword } from '../controllers/usuarioController.js';
 
 // Routing
 const router = express.Router();
@@ -11,6 +11,8 @@ router.post('/registro', registrar)
 
 router.get('/olvide-password', formularioOlvidePasswword)
 
+// Endpoint confirmar
+router.get('/confirmar/:token', confirmar);
     
 
 export default router;
