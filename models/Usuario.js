@@ -27,4 +27,9 @@ const Usuario = db.define('usuarios', {
     }
 }, {timestamps: false})
 
+// Metodos Personalizados
+Usuario.prototype.verificarPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
+
 export default Usuario;
